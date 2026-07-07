@@ -46,7 +46,7 @@ userprofileConnection.openUri(process.env.MONGODB_URI_USERPROFILE)
   .then(() => console.log('Connected to userprofile DB'))
   .catch((err) => console.error('Error connecting to userprofile DB:', err));
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

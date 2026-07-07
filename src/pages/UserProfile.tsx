@@ -5,6 +5,7 @@ import ProfileHeader from '../components/ProfileHeader';
 import { calculateRank } from '../lib/ranks';
 import Navbar from '../components/Navbar';
 import CopyrightFooter from '../components/CopyrightFooter';
+import { apiUrl } from '../lib/api';
 
 interface userdata {
   _id: string;
@@ -37,7 +38,7 @@ export default function UserProfile() {
 
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/userprofile/${username}`);
+        const response = await fetch(apiUrl(`/userprofile/${username}`));
         const data = await response.json();
 
         // Set the user data based on the API response
@@ -95,7 +96,7 @@ export default function UserProfile() {
     setLoading(true);
     try {
       if (!userData) return; // Ensure userData is available
-      await fetch(`http://localhost:3000/userprofile/update`, {
+      await fetch(apiUrl('/userprofile/update'), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

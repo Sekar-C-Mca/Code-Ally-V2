@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Trophy, Eye, EyeOff } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import CopyrightFooter from '../components/CopyrightFooter';
+import { apiUrl } from '../lib/api';
 
 interface FormData {
   fullName: string;
@@ -22,8 +23,6 @@ interface LeetcodeUserInfo {
   school: string;
   about: string;
 }
-
-const API_BASE_URL = 'http://localhost:3000';
 
 export default function Register() {
   const [formData, setFormData] = useState<FormData>({
@@ -67,7 +66,7 @@ export default function Register() {
       aboutUs: leetcodeData.about || '',
     };
 
-    const response = await fetch(`${API_BASE_URL}/userprofile/create`, {
+    const response = await fetch(apiUrl('/userprofile/create'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -96,7 +95,7 @@ export default function Register() {
 
     try {
       // Step 1: Register user
-      const registerResponse = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      const registerResponse = await fetch(apiUrl('/api/auth/register'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +111,7 @@ export default function Register() {
       setSuccessMessage(registerData.message);
 
       // Step 2: Fetch LeetCode info
-      const leetcodeResponse = await fetch(`${API_BASE_URL}/leetcode/${formData.leetcodeUsername}`);
+      const leetcodeResponse = await fetch(apiUrl(`/leetcode/${formData.leetcodeUsername}`));
       if (!leetcodeResponse.ok) {
         throw new Error('Failed to fetch LeetCode information');
       }

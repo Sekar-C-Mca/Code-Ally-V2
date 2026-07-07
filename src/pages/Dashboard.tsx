@@ -5,6 +5,7 @@ import { StatsCard } from '../components/StatsCard';
 import Navbar from '../components/Navbar';
 import PlatformStats from '../components/PlatformStats';
 import CopyrightFooter from '../components/CopyrightFooter';
+import { apiUrl } from '../lib/api';
 
 // Define the interface for the response data
 interface UserProfile {
@@ -85,7 +86,7 @@ export default function Dashboard() {
     
     if (token) {
       // Fetch user profile data
-      fetch('http://localhost:3000/api/user/profile', {
+      fetch(apiUrl('/api/user/profile'), {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -98,7 +99,7 @@ export default function Dashboard() {
           
           // Fetch LeetCode stats using the username from the user data
           if (data.user.leetcodeUsername) {
-            fetch(`http://localhost:3000/leetcode/${data.user.leetcodeUsername}/solved`, {
+            fetch(apiUrl(`/leetcode/${data.user.leetcodeUsername}/solved`), {
               method: 'GET',
             })
               .then((response) => response.json())
@@ -112,7 +113,7 @@ export default function Dashboard() {
 
           if(data.user.gfgUsername)
           {
-            fetch(`http://localhost:3000/gfg/?userName=${data.user.gfgUsername}`,{
+            fetch(apiUrl(`/gfg/?userName=${data.user.gfgUsername}`),{
               method:'GET',
             })
             .then((response)=>response.json())
@@ -125,7 +126,7 @@ export default function Dashboard() {
           }
         
         if (data.user.leetcodeUsername) {
-          fetch(`http://localhost:3000/leetcode/${data.user.leetcodeUsername}/badges`, {
+          fetch(apiUrl(`/leetcode/${data.user.leetcodeUsername}/badges`), {
             method: 'GET',
           })
             .then((response) => {
@@ -144,7 +145,7 @@ export default function Dashboard() {
 
         if(data.user.leetcodeUsername)
         {
-          fetch(`http://localhost:3000/leetcode/skillStats/${data.user.leetcodeUsername}`,{
+          fetch(apiUrl(`/leetcode/skillStats/${data.user.leetcodeUsername}`),{
             method:'GET',
           }).then((response)=>
           {
@@ -162,7 +163,7 @@ export default function Dashboard() {
 
         if(data.user.codeforceUsername)
         {
-          fetch(`http://localhost:3000/codeforce/${data.user.codeforceUsername}`,{
+          fetch(apiUrl(`/codeforce/${data.user.codeforceUsername}`),{
             method:'GET',
           }).then((response)=>
           {
@@ -192,7 +193,7 @@ export default function Dashboard() {
     }
     const date =getCurrentDate();
     
-    fetch(`http://localhost:3000/motivational/${date}`, {
+    fetch(apiUrl(`/motivational/${date}`), {
       method: 'GET'
       }).then((response)=>
         {

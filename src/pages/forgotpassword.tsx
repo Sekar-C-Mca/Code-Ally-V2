@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trophy, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios'; // Using axios for API calls
+import { apiUrl } from '../lib/api';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -25,11 +26,11 @@ export default function ForgotPassword() {
   
     try {
       // First, check if the email exists in the database
-      const emailCheckResponse = await axios.post('http://localhost:3000/api/user/check-email', { email });
+      const emailCheckResponse = await axios.post(apiUrl('/api/user/check-email'), { email });
   
       if (emailCheckResponse.status === 200 && emailCheckResponse.data.exists) {
         // If the email exists, send OTP to the email
-        const response = await axios.post('http://localhost:3000/resetpassword/send-otp', { email });
+        const response = await axios.post(apiUrl('/resetpassword/send-otp'), { email });
   
         if (response.status === 200) {
           setSuccessMessage('OTP has been sent to your email.');
@@ -57,7 +58,7 @@ export default function ForgotPassword() {
 
     try {
       // Send OTP to verify it
-      const response = await axios.post('http://localhost:3000/resetpassword/verify-otp', { email, otp: otp.join('') });
+      const response = await axios.post(apiUrl('/resetpassword/verify-otp'), { email, otp: otp.join('') });
 
       if (response.status === 200) {
         setSuccessMessage('OTP verified successfully!');
@@ -91,7 +92,7 @@ export default function ForgotPassword() {
     try {
       // Send the POST request to update the password
       const response = await axios.put(
-        'http://localhost:3000/api/auth/updatepassword',
+        apiUrl('/api/auth/updatepassword'),
         {
           email,
           newPassword
